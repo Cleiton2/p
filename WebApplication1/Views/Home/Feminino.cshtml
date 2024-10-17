@@ -1,0 +1,227 @@
+@{
+    ViewData["Title"] = "Feminino";
+}
+
+<div class="content">
+    <h1 style="text-align: center;">Vamos juntos nessa missão com o Operação Bexiga?  </h1>
+    
+    <p style="text-align: center; padding-top: 40px;">
+        No player abaixo você irá visualizar como o processo é realizado e também realizar junto.   
+    </p>
+    <p style="text-align: center; padding-bottom: 10px;">
+        Não se precoupe, existe uma pausa entre os passos, assim você ira conseguir fazer sem pressa.
+    </p>
+    <div id="mediaPlayer">
+        <div class="media-container">
+            <img id="slideshowImage" src="/images/image1.jpg" alt="Slideshow Image">
+            <audio id="slideshowAudio">
+                <source src="/audios/audio1.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <div class="controls">
+            <button id="prevButton" class="control-button"><i class='bx bx-skip-previous'></i></button>
+            <button id="playPauseButton" class="control-button"><i class='bx bx-play'></i></button>
+            <button id="nextButton" class="control-button"><i class='bx bx-skip-next'></i></button>
+        </div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+    <p style="text-align: center; padding-top: 40px;">
+      Você também pode acessar através do link ou QR Code abaixo, um manual de instruções com o passo a passo, 
+    </p>
+    <p style="text-align: center;">
+        disponível para baixar o PDF caso preferir.
+    </p>
+    <p style="text-align: center;">
+        O que não vai faltar é material para ajudar! Você não está sozinho nessa jornada!
+    </p>
+    
+    <div class="additional-image">
+        <img src="/images/qrcodeFeminino.png" alt="Additional Image" style="max-width: 100%; height: auto; margin-top: 20px;">
+    </div>
+
+    <div class="hyperlink-container">
+        <a href="https://drive.google.com/file/d/106OBgyAbGSxO2kLcYKagsKAhr2SdmszS/view?usp=drivesdk" target="_blank" class="custom-link">Link PDF</a>
+    </div>
+</div>
+
+<style>
+#mediaPlayer {
+  max-width: 700px;
+  margin: 20px auto;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.media-container {
+  position: relative;
+  padding-top: 50%;
+  overflow: hidden;
+}
+
+#slideshowImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  background-color: #004e56;
+}
+
+.control-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin: 0 5px;
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.control-button:hover {
+  color: #00d4ff;
+}
+
+.progress-bar {
+  height: 5px;
+  background-color: #cccccc;
+}
+
+.progress {
+  width: 0;
+  height: 100%;
+  background-color: #00d4ff;
+  transition: width 0.5s linear;
+}
+
+.additional-image {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.additional-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.additional-image {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.additional-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hyperlink-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.custom-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #004e56;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.custom-link:hover {
+  background-color: #00828e;
+}
+</style>
+
+<script>
+    // Array of image and audio URLs
+    const slides = [
+        { image: '/images/1mulher.png', audio: '/audios/feminino1.mp3' },
+        { image: '/images/2mulher.png', audio: '/audios/feminino2.mp3' },
+        { image: '/images/3mulher.png', audio: '/audios/feminino3.mp3' },
+        { image: '/images/4mulher.png', audio: '/audios/feminino4.mp3' },
+        { image: '/images/5mulher.png', audio: '/audios/feminino5.mp3' },
+        { image: '/images/6mulher.png', audio: '/audios/feminino6.mp3' },
+        { image: '/images/7mulher.png', audio: '/audios/feminino7.mp3' },
+        { image: '/images/8mulher.png', audio: '/audios/feminino8.mp3' }
+    ];
+    let currentSlideIndex = 0;
+    let slideshowInterval;
+    let isPlaying = false;
+
+    const slideshowImage = document.getElementById('slideshowImage');
+    const slideshowAudio = document.getElementById('slideshowAudio');
+    const playPauseButton = document.getElementById('playPauseButton');
+    const nextButton = document.getElementById('nextButton');
+    const prevButton = document.getElementById('prevButton');
+
+    function changeSlide(direction = 1) {
+        currentSlideIndex = (currentSlideIndex + direction + slides.length) % slides.length;
+        slideshowImage.src = slides[currentSlideIndex].image;
+        slideshowAudio.src = slides[currentSlideIndex].audio;
+        if (isPlaying) {
+            slideshowAudio.play();
+        }
+    }
+
+    function startSlideshow() {
+        isPlaying = true;
+        slideshowInterval = setInterval(() => {
+            changeSlide(1);
+        }, 90000);
+        slideshowAudio.play();
+        playPauseButton.innerHTML = "<i class='bx bx-pause'></i>";
+    }
+
+    function stopSlideshow() {
+        isPlaying = false;
+        clearInterval(slideshowInterval);
+        slideshowAudio.pause();
+        playPauseButton.innerHTML = "<i class='bx bx-play'></i>";
+    }
+
+    function togglePlayPause() {
+        if (isPlaying) {
+            stopSlideshow();
+        } else {
+            startSlideshow();
+        }
+    }
+
+    playPauseButton.addEventListener('click', togglePlayPause);
+    nextButton.addEventListener('click', () => {
+        changeSlide(1);
+        if (isPlaying) {
+            stopSlideshow();
+            startSlideshow();
+        }
+    });
+    prevButton.addEventListener('click', () => {
+        changeSlide(-1);
+        if (isPlaying) {
+            stopSlideshow();
+            startSlideshow();
+        }
+    });
+
+    // Initialize with the first slide, but don't start playing
+    changeSlide(0);
+</script>
+
