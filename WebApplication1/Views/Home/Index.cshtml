@@ -2,14 +2,14 @@
     ViewData["Title"] = "Home Page";
 }
 
+<div class="button-container">
+    <button id="playButton" class="control-button">▶</button>
+</div>
 <div class="content">
-    <h1 style="text-align: center;">Bem-vindo ao Operação Bexiga!</h1>
+    <h1 style="text-align: center;">Bem-vindo a Operação Bexiga!</h1>
     <p style="text-align: center;">
         Aqui, você vai descobrir tudo sobre o Cateterismo Vesical Intermitente Limpo (CVIL), 
         uma técnica segura e eficaz para ajudar no esvaziamento da bexiga.
-    </p>
-    <p style="text-align: center;">
-        Se você tem dificuldade para fazer isso sozinho, o CVIL pode ser a solução ideal.
     </p>
     <p style="text-align: center;">
         O processo é simples: um cateter é inserido pela uretra até a bexiga, em intervalos regulares, para drenar a urina.
@@ -27,13 +27,13 @@
         Sabemos que, no começo, você pode sentir alguma insegurança, mas fique tranquilo, isso é completamente normal!
     </p>
     <p style="text-align: center;">
-        Decidir incluir o CVIL na rotina pode trazer dúvidas e mexer com o lado físico, emocional e social, mas estamos aqui para ajudar.
+        Incluir o CVIL na sua rotina pode trazer dúvidas e mexer com o lado físico, emocional e social, mas estamos aqui para ajudar você.
     </p>
     <p style="text-align: center;">
         O mais importante é que o CVIL pode ser adaptado às suas necessidades específicas.
     </p>
     <p style="text-align: center;">
-        E o melhor: tanto você quanto seus cuidadores podem aprender tudo direitinho, ajudando a reduzir infecções e melhorar sua saúde.
+        E o melhor: tanto você quanto seus cuidadores podem aprender tudo direitinho, ajudando a reduzir infecções e melhorando sua saúde.
     </p>
     
     <div class="additional-image">
@@ -41,27 +41,73 @@
     </div>
 </div>
 
- <style>
-.additional-image {
-  text-align: center;
-  margin-top: 20px;
-}
+<style>
+    .button-container {
+        text-align: right; /* Align the button to the right */
+        margin-bottom: 20px; /* Space below the button */
+    }
 
-.additional-image img {
-  max-width: 70%;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-.additional-image {
-  text-align: center;
-  margin-top: 20px;
-}
+    .control-button {
+        background-color: #4CAF50; /* Green background */
+        border: none; /* Remove border */
+        color: white; /* White text */
+        padding: 10px 15px; /* Padding */
+        text-align: center; /* Center text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Inline block */
+        font-size: 24px; /* Font size for the icon */
+        border-radius: 50%; /* Circular button */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s; /* Transition effect */
+    }
 
-.additional-image img {
-  max-width: 70%;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+    .control-button:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
+
+    .additional-image {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .additional-image img {
+        max-width: 70%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 </style>
+
+<script>
+    let speech;
+
+    function stopAudio() {
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    window.addEventListener('beforeunload', stopAudio);
+
+    document.getElementById('playButton').addEventListener('click', function() {
+        const content = document.querySelector('.content').innerText; 
+        if (!window.speechSynthesis.speaking) {
+            speech = new SpeechSynthesisUtterance(content);
+            speech.lang = 'pt-BR';
+
+            window.speechSynthesis.speak(speech);
+            this.textContent = '❚❚'; 
+            speech.onend = function() {
+                document.getElementById('playButton').textContent = '▶';
+            };
+        } else {
+            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+                window.speechSynthesis.pause();
+                this.textContent = '▶';
+            } else {
+                window.speechSynthesis.resume();
+                this.textContent = '❚❚';
+            }
+        }
+    });
+</script>

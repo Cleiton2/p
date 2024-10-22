@@ -2,18 +2,21 @@
     ViewData["Title"] = "Feminino";
 }
 
+<div class="button-container">
+    <button id="playButton" class="control-button-top">▶</button>
+</div>
 <div class="content">
-    <h1 style="text-align: center;">Vamos juntos nessa missão com o Operação Bexiga?  </h1>
+    <h1 style="text-align: center;">Vamos juntos nessa missão, com o Operação Bexiga?</h1>
     
     <p style="text-align: center; padding-top: 40px;">
         No player abaixo você irá visualizar como o processo é realizado e também realizar junto.   
     </p>
     <p style="text-align: center; padding-bottom: 10px;">
-        Não se precoupe, existe uma pausa entre os passos, assim você ira conseguir fazer sem pressa.
+        Não se preocoupe, existe uma pausa entre os passos, assim você ira conseguir fazer sem pressa.
     </p>
-     <div class="attention-message">
+    <div class="attention-message">
         <p style="text-align: center;"><strong>Atenção!</strong></p>
-        <p> Se você for passar o cateter não irá precisar de usar luvas.</p>
+        <p> Se você for passar o cateter, não irá precisar de usar luvas.</p>
         <p> Se outra pessoa for passar o cateter para você, essa pessoa deve colocar as luvas após a lavagem das mãos.</p>
     </div>
     <div id="mediaPlayer">
@@ -42,13 +45,10 @@
     <p style="text-align: center;">
         O que não vai faltar é material para ajudar! Você não está sozinho nessa jornada!
     </p>
-    
-    <div class="additional-image">
-        <img src="/images/qrcodeFeminino.png" alt="Additional Image" style="max-width: 100%; height: auto; margin-top: 20px;">
+    <div class="additional-image" id="qrCodeContainer">
     </div>
-
     <div class="hyperlink-container">
-        <a href="https://drive.google.com/file/d/106OBgyAbGSxO2kLcYKagsKAhr2SdmszS/view?usp=drivesdk" target="_blank" class="custom-link">Link PDF</a>
+        <a href="https://drive.google.com/file/d/15NNPyOoEzi58kdhlmdfH8mZXmu-i08TR/view?usp=drivesdk" target="_blank" class="custom-link">Link PDF</a>
     </div>
 </div>
 
@@ -165,10 +165,33 @@
 .custom-link:hover {
   background-color: #00828e;
 }
+
+ .button-container {
+        text-align: right; /* Align the button to the right */
+        margin-bottom: 20px; /* Space below the button */
+    }
+
+    .control-button-top {
+        background-color: #4CAF50; /* Green background */
+        border: none; /* Remove border */
+        color: white; /* White text */
+        padding: 10px 15px; /* Padding */
+        text-align: center; /* Center text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Inline block */
+        font-size: 24px; /* Font size for the icon */
+        border-radius: 50%; /* Circular button */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s; /* Transition effect */
+    }
+
+    .control-button-top:hover {
+        background-color: #45a049;
+    }
+
 </style>
 
 <script>
-    // Array of image and audio URLs
     const slides = [
         { image: '/images/1mulher.png', audio: '/audios/feminino1.mp3' },
         { image: '/images/2mulher.png', audio: '/audios/feminino2.mp3' },
@@ -238,7 +261,46 @@
         }
     });
 
-    // Initialize with the first slide, but don't start playing
     changeSlide(0);
-</script>
 
+    let speech;
+    function stopAudio() {
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+
+    window.addEventListener('beforeunload', stopAudio);
+    document.getElementById('playButton').addEventListener('click', function() {
+        const content = document.querySelector('.content').innerText;
+        if (!window.speechSynthesis.speaking) {
+            speech = new SpeechSynthesisUtterance(content);
+            speech.lang = 'pt-BR';
+
+            window.speechSynthesis.speak(speech);
+            this.textContent = '❚❚';
+            speech.onend = function() {
+                document.getElementById('playButton').textContent = '▶';
+            };
+        } else {
+            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+                window.speechSynthesis.pause();
+                this.textContent = '▶';
+            } else {
+                window.speechSynthesis.resume();
+                this.textContent = '❚❚';
+            }
+        }
+    });
+
+    function generateQRCode(link) {
+        const qrCodeContainer = document.getElementById('qrCodeContainer');
+        const qrCodeImage = document.createElement('img');
+        qrCodeImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}&size=200x200`;
+        qrCodeImage.alt = 'QR Code';
+        qrCodeContainer.appendChild(qrCodeImage);
+    }
+
+    generateQRCode('https://drive.google.com/file/d/15NNPyOoEzi58kdhlmdfH8mZXmu-i08TR/view?usp=drivesdk');
+</script>
