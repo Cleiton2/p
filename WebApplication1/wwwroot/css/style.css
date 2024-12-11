@@ -12,10 +12,13 @@
   top: 0;
   height: 100%;
   width: 78px;
-  background: linear-gradient(to bottom, #004e56, #ffffff);
+  background: linear-gradient(to right, #004e56, #ffffff);
   padding: 6px 14px;
   z-index: 99;
   transition: all 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 .sidebar.open{
   width: 250px;
@@ -63,6 +66,15 @@
 }
 .sidebar i{
   color: #ffffff;
+  height: 60px;
+  min-width: 50px;
+  font-size: 28px;
+  text-align: center;
+  line-height: 60px;
+}
+
+.sidebar t{
+  color: #000000;
   height: 60px;
   min-width: 50px;
   font-size: 28px;
@@ -269,4 +281,17 @@
   .sidebar li .tooltip{
     display: none;
   }
+}
+
+.nav-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

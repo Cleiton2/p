@@ -1,0 +1,126 @@
+@{
+    ViewData["Title"] = "Referencias";
+}
+
+<div class="button-container">
+    <button id="playButton" class="control-button">▶</button>
+</div>
+<div class="content">
+ <div class="container">
+    <div class="header">
+        <h1>DOCUMENTOS DE REFERÊNCIA</h1>
+     </div>
+     <div class="content2">
+        <ul class="list">
+           <li>
+              <span class="bold">Ercole FE, Macieira TGR, Wenceslau LCC, Martins AR, Campos CC, Chianca TCM, Revisão Integrativa:</span> 
+              evidências na prática do cateterismo urinário intermitente/demora. Rev. Latino-Am.enfermagem;
+           </li>
+           <li>
+              <span class="bold">CÂMARA, F.R. Cateterismo vesical:</span> 
+           Enfoque urológico. UNESP, 2009.
+              <span class="bold">ASSOCIAÇÃO EUROPEIA DE ENFERMEIROS DE UROLOGIA.
+              </span> Diretrizes baseadas em evidências para as melhores práticas em cuidados de saúde urológicos. Cateterismo de demora em adultos uretral e suprapúbico. 2012;
+           </li>
+           <li>
+              <span class="bold">ASSOCIAÇÃO EUROPEIA DE ENFERMEIROS DE UROLOGIA.</span> 
+              Diretrizes baseadas em evidências para as melhores práticas em cuidados de saúde urológicos. Cateterismo uretral intermitente em adultos. Dilatação, uretral intermitente em adultos. 2013
+           </li>
+           <li>
+              <span class="bold">POP 359 SCIrAS Higienização simples das mãos.</span>
+           </li>
+        </ul>
+     </div>
+</div>
+
+<style>
+     body {
+       font-family: Arial, Helvetica, sans-serif;
+     }
+
+     .container {
+       width: 80%;
+       margin: 0 auto;
+     }
+
+     .header {
+       text-align: center;
+       padding: 10px;
+       background-color: #004e56;
+     }
+
+    .content2 {
+       padding: 10px;
+       border: 1px solid #ccc;
+    }
+
+    .list {
+       margin: 0;
+       padding: 0;
+    }
+
+    .list li {
+         margin-bottom: 5px;
+         list-style: disc;
+         margin-left: 40px;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+    .button-container {
+        text-align: right; /* Align the button to the right */
+        margin-bottom: 20px; /* Space below the button */
+    }
+
+    .control-button {
+        background-color: #4CAF50; /* Green background */
+        border: none; /* Remove border */
+        color: white; /* White text */
+        padding: 10px 15px; /* Padding */
+        text-align: center; /* Center text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Inline block */
+        font-size: 24px; /* Font size for the icon */
+        border-radius: 50%; /* Circular button */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s; /* Transition effect */
+    }
+
+    .control-button:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
+</style>
+<script>
+    let speech;
+
+    function stopAudio() {
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    window.addEventListener('beforeunload', stopAudio);
+
+    document.getElementById('playButton').addEventListener('click', function () {
+        const content = document.querySelector('.content').innerText;
+        if (!window.speechSynthesis.speaking) {
+            speech = new SpeechSynthesisUtterance(content);
+            speech.lang = 'pt-BR';
+
+            window.speechSynthesis.speak(speech);
+            this.textContent = '❚❚';
+            speech.onend = function () {
+                document.getElementById('playButton').textContent = '▶';
+            };
+        } else {
+            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+                window.speechSynthesis.pause();
+                this.textContent = '▶';
+            } else {
+                window.speechSynthesis.resume();
+                this.textContent = '❚❚';
+            }
+        }
+    });
+</script>

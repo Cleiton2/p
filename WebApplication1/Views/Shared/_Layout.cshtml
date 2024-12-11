@@ -14,31 +14,40 @@
       <div class="logo-details">
         <img src="~/images/logo.jpeg" alt="Logo" class="logo-icon">
         <div class="logo_name">Operação Bexiga</div>
-        <i class="bx bx-menu" id="btn"></i>
+        <t class="bx bx-menu" id="btn"></t>
       </div>
-      <ul class="nav-list">
-        <li>
-          <a class="nav-link" asp-controller="Home" asp-action="Index">
-            <i class='bx bx-home'></i>
-            <span class="links_name">Inicio</span>
-          </a>
-          <span class="tooltip">Inicio</span>
-        </li>
+      <div class="nav-container">
+        <ul class="nav-list">
           <li>
-          <a class="nav-link" asp-controller="Home" asp-action="Feminino">
-            <i class='bx bx-female-sign' ></i>
-            <span class="links_name">Feminino</span>
+            <a class="nav-link" asp-controller="Home" asp-action="Index">
+              <i class='bx bx-home'></i>
+              <span class="links_name">Início</span>
+            </a>
+            <span class="tooltip">Início</span>
+          </li>
+          <li>
+            <a class="nav-link" asp-controller="Home" asp-action="Feminino" id="btnFeminino">
+              <i class='bx bx-female-sign'></i>
+              <span class="links_name">Feminino</span>
+            </a>
+            <span class="tooltip">Feminino</span>
+          </li>
+          <li>
+            <a class="nav-link" asp-controller="Home" asp-action="Masculino" id="btnMasculino">
+              <i class='bx bx-male-sign'></i>
+              <span class="links_name">Masculino</span>
+            </a>
+            <span class="tooltip">Masculino</span>
+          </li>
+        </ul>
+        <li class="nav-bottom">
+          <a class="nav-link" asp-controller="Home" asp-action="Referencias" id="btnReferencias">
+            <i class='bx bxs-book-heart'></i>
+            <span class="links_name">Referências</span>
           </a>
-          <span class="tooltip">Feminino</span>
+          <span class="tooltip">Referências</span>
         </li>
-        <li>
-          <a class="nav-link" asp-controller="Home" asp-action="Masculino">
-            <i class='bx bx-male-sign' ></i>
-            <span class="links_name">Masculino</span>
-          </a>
-          <span class="tooltip">Masculino</span>
-        </li>
-      </ul>
+      </div>
     </div>
     <div class="content-wrapper">
       <section class="home-section">
